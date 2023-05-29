@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <link rel="stylesheet" href="test.css">
+
+</head>
+<header class="banner">
+  <h1>
+    <div id="timer">Timer: 0</div>
+    <button id="start-button">Start Game</button>
+    <div id="score">Score: 0</div>
+    <button id="reset-button">Reset</button>
+  </h1>
+</header>
+<body>
+  
+  <section class="memory-game">
+    
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Charizard" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Charizard" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Dewgong" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Dewgong" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Ivysaur" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Ivysaur" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Mewtwo" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Raichu" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Raichu" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src=""alt="Zapdos" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+    <div class="memory-card" data-pokemon="">
+      <img class="front-face" src="" alt="Zapdos" />
+      <img class="back-face" src="images/background.jpg" alt="Pokemon-card-back" />
+    </div>
+
+    </div>
+  </section>
+  <p id="best-score">Best Score:</p> 
+
+<h1 id="leaderboard">Leaderboard</h1>
+<table class="leaderboard-table">
+  <tr>
+    <th>Username</th>
+    <th>Score</th>
+  </tr>
+  <tbody id="leaderboard-table-body">
+    <!-- Table rows will be dynamically populated here -->
+  </tbody>
+</table>
+
+<script>
+  // Fetch leaderboard data and populate the table using JavaScript
+  fetch('/topscores')
+    .then(response => response.json())
+    .then(data => {
+      const topScoresBody = document.getElementById('leaderboard-table-body');
+      topScoresBody.innerHTML = ''; // Clear any existing rows
+
+      const glowingScoreThreshold = 20; // Define the score threshold for glowing
+
+      data.forEach((score, index) => {
+        const row = document.createElement('tr');
+
+        // Create table cells for Username and Score
+        const usernameCell = document.createElement('td');
+        usernameCell.textContent = score.username;
+        row.appendChild(usernameCell);
+
+        const scoreCell = document.createElement('td');
+        
+        // Create a span element for the score value
+        const scoreValueSpan = document.createElement('span');
+        scoreValueSpan.textContent = score.score;
+
+        // Add glowing class if the score is above the threshold
+        if (score.score > glowingScoreThreshold) {
+          scoreValueSpan.classList.add('glowing-score');
+        }
+
+        // Append the span element to the score cell
+        scoreCell.appendChild(scoreValueSpan);
+        
+        row.appendChild(scoreCell);
+
+        // Append the row to the table body
+        topScoresBody.appendChild(row);
+      });
+    })
+    .catch(error => console.error('Error:', error));
+</script>
+
+
+
+  <script src="games.js"></script>
+</body>
+</html>
